@@ -1,65 +1,122 @@
-import { Button, TextField, Box, DialogTitle, Dialog } from "@mui/material";
+import { Button, DialogTitle, Dialog } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-
+import { createUser } from "../../APIs/axios";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [open, setOpen] = useState(false);
-
-
   const handleSubmit = () => {
     if (username && password) {
       setOpen(!open);
       setUsername("");
       setPassword("");
-      axios.post(`https://builder-backed.herokuapp.com/user/create`, { username, password })
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-      })
+      createUser(username, password);
     }
   };
   return (
     <>
-      <div style={{ backgroundColor: "blue" }}>
-      <Link to="/">Home</Link>
-        <Box
-          sx={{
-            height: 800,
-            backgroundColor: "white",
-            display: "flex",
-            flexDirection: "column",
-            padding: "80px",
-            gap: "10px",
-            margin: "0 auto",
-            width: "50%",
-          }}
-        >
-          <TextField
-            label="Username"
-            variant="outlined"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <TextField
-            label="Password"
-            variant="outlined"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button variant="contained" onClick={handleSubmit}>
-            Submit
-          </Button>
-        </Box>
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="col-xl-10 col-lg-12 col-md-9">
+            <div className="card o-hidden border-0 shadow-lg my-5">
+              <div className="card-body p-0">
+                <div className="row">
+                  <div className="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                  <div className="col-lg-6">
+                    <div className="p-5">
+                      <div className="text-center">
+                        <h1 className="h4 text-gray-900 mb-4">Login</h1>
+                      </div>
+                      <form className="user" autocomplete="off">
+                        <div className="form-group">
+                          <input
+                            type="email"
+                            className="form-control form-control-user"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            aria-describedby="emailHelp"
+                            placeholder="Enter Email Address..."
+                          
+                          />
+                        </div>
+                        <div className="form-group">
+                          <input
+                            type="password"
+                            className="form-control form-control-user"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Password"
+                          
+                          />
+                        </div>
+                        <div className="form-group">
+                          <div className="custom-control custom-checkbox small">
+                            <input
+                              type="checkbox"
+                              className="custom-control-input"
+                              id="customCheck"
+                            />
+                            <label
+                              className="custom-control-label"
+                              for="customCheck"
+                            >
+                              Remember Me
+                            </label>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          className="btn btn-primary btn-user btn-block"
+                          onClick={handleSubmit}
+                        >
+                          Login
+                        </button>
+                        <hr />
+                        <a
+                          href="index.html"
+                          className="btn btn-google btn-user btn-block"
+                        >
+                          <i className="fab fa-google fa-fw"></i> Login with
+                          Google
+                        </a>
+                        <a
+                          href="index.html"
+                          className="btn btn-facebook btn-user btn-block"
+                        >
+                          <i className="fab fa-facebook-f fa-fw"></i> Login with
+                          Facebook
+                        </a>
+                      </form>
+                      <hr />
+                      <div className="text-center">
+                        <Link className="small" to="/forgot">
+                          Forgot Password?
+                        </Link>
+                      </div>
+                      <div className="text-center">
+                        <Link className="small" to="/signup">
+                          Create an Account!
+                        </Link>
+                      </div>
+                      <div className="text-center">
+                        <Link className="small" to="/">
+                          Home
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <Dialog open={open}>
         <DialogTitle>Successfully Registor</DialogTitle>
         <Button
           onClick={() => {
             setOpen(!open);
-           
           }}
         >
           back
@@ -68,5 +125,4 @@ const Login = () => {
     </>
   );
 };
-
 export default Login;
